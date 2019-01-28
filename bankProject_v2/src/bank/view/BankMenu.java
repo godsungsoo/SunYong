@@ -38,25 +38,31 @@ public class BankMenu {
 	public void adminMenu() {
 		do {
 			System.out.println("\n*** 관리자 메뉴 ***");
-			System.out.print("\n1. 통장개설"
-								+ "\n2. 전체 사용자 통장 조회"
-								+ "\n3. 해당 사용자 통장 조회"
-								+ "\n4. 해당 계좌 거래내역 조회"
-								+ "\n5. 통장삭제"
-								+ "\n6. 이전으로 돌아가기"
+			System.out.print("\n1. 신규고객 통장개설"
+								+ "\n2. 기존고객 통장개설"
+								+ "\n3. 전체 사용자 통장 조회"
+								+ "\n4. 고객 이름으로 통장 조회"
+								+ "\n5. 계좌번호로 거래내역 조회"
+								+ "\n6. 고객 핸드폰 번호 병경"
+								+ "\n7. 통장삭제"
+								+ "\n8. 이전으로 돌아가기"
 								+ "\n메뉴 선택 :");
 			switch(sc.nextInt()) {
-			case 1 :bController.bankInsert(bankInsert()); 
+			case 1 ://bController.bankNewInsert(bankInsert());
 					  break;
-			case 2 :printAllUser(bController.selectAll()); 
+			case 2 :bController.bankInsert(bankInsert()); 
 					  break;
-			case 3 :printAllUser(bController.selectAccountNo(inputAccountNo()));
+			case 3 :printAllUser(bController.selectAll()); 
 					  break;
-			case 4 :printAll(bController.selectTransaction(inputAccountNo()));
+			case 4 : printAllUser(bController.selectName(inputUserName()));
 					  break;
-			case 5 ://deleteAccount(bController.deleteAccount(inputAccountNo()));
+			case 5 :printAll(bController.selectAccount(inputAccountNo()));
+					  break;
+			case 6 :printAll(bController.selectTransaction(inputAccountNo()));
+					  break;
+			case 7 ://deleteAccount(bController.deleteAccount(inputAccountNo()));
 					   break;
-			case 6 :System.out.print("이전 메뉴로 돌아가시겠습니까(y,n) ? :");
+			case 8 :System.out.print("이전 메뉴로 돌아가시겠습니까(y,n) ? :");
 						if(sc.next().toLowerCase().charAt(0) == 'y') {
 							return;
 						} else {
@@ -72,7 +78,7 @@ public class BankMenu {
 	public void userMenu() {
 		do {
 			System.out.println("\n*** 사용자 메뉴 ***");
-			System.out.print("\n\r1. 입금"
+			System.out.print("\n1. 입금"
 								+ "\n2. 출금"
 								+ "\n3. 계좌이체"
 								+ "\n4. 계좌조회"
@@ -124,8 +130,8 @@ public class BankMenu {
 	
 	public void printAllUser(ArrayList<Bank> bankList) {
 		for(Bank bank : bankList) {
-			System.out.println(bank.getUserNo() + ", " + bank.getAccountNo() +", "+
-							bank.getUserName() + ", " + bank.getOpenDate() );
+			System.out.println(bank.getUserNo() + " " + bank.getUserName() + " " + bank.getAccountNo() +" "+ bank.getBalance() + " "
+				+ " " + bank.getOpenDate()+" "+bank.getTransDate() +" "+ bank.getPhone());
 		}
 	}
 	
@@ -143,10 +149,6 @@ public class BankMenu {
 		System.out.print("고객명 :");
 		return sc.next();
 	}
-	
-	/*public void printOne(Bank bank) {
-		System.out.println(bank);
-	}*/
 	
 	public Bank inputDeposit() {
 		Bank bank = new Bank();

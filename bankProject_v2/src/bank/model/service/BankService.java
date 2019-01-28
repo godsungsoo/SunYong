@@ -30,9 +30,9 @@ public class BankService {
 		return bookList;
 	}
 
-	public ArrayList<Bank> selectAccountNo(String accountNo) {
+	public ArrayList<Bank> selectAccount(String accountNo) {
 		Connection conn = getConnection();
-		ArrayList<Bank> bookList = bdao.selectAll(conn, accountNo);
+		ArrayList<Bank> bookList = bdao.selectAccount(conn, accountNo);
 		close(conn);
 		return bookList;
 	}
@@ -40,6 +40,13 @@ public class BankService {
 	public ArrayList<Bank> selectTransaction(String accountNo) {
 		Connection conn = getConnection();
 		ArrayList<Bank> bookList = bdao.selectTransaction(conn, accountNo);
+		close(conn);
+		return bookList;
+	}
+
+	public ArrayList<Bank> selectName(String userName) {
+		Connection conn = getConnection();
+		ArrayList<Bank> bookList = bdao.selectName(conn, userName);
 		close(conn);
 		return bookList;
 	}

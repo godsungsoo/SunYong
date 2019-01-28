@@ -29,8 +29,8 @@ public class BankController {
 		return bankList;
 	}
 
-	public ArrayList<Bank> selectAccountNo(String accountNo) {
-		ArrayList<Bank> bankList = bService.selectAccountNo(accountNo);
+	public ArrayList<Bank> selectAccount(String accountNo) {
+		ArrayList<Bank> bankList = bService.selectAccount(accountNo);
 		
 		if(bankList.size() == 0) {
 			System.out.println("\n통장이 없습니다.");
@@ -40,6 +40,14 @@ public class BankController {
 
 	public ArrayList<Bank> selectTransaction(String accountNo) {
 		ArrayList<Bank> bankList = bService.selectTransaction(accountNo);
+		if(bankList.size() == 0) {
+			System.out.println("\n통장이 없습니다.");
+		}
+		return bankList;
+	}
+
+	public ArrayList<Bank> selectName(String userName) {
+		ArrayList<Bank> bankList = bService.selectName(userName);
 		if(bankList.size() == 0) {
 			System.out.println("\n통장이 없습니다.");
 		}

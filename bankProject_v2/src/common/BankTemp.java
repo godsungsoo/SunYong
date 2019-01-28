@@ -1,18 +1,25 @@
 package common;
 
+import java.io.FileReader;
+import java.io.IOException;
 import java.sql.*;
+import java.util.Properties;
 
 public class BankTemp {
 	
 	public static Connection getConnection() {
 		Connection conn = null;
+		Properties prop = new Properties();
 		try {
-			Class.forName("oracle.jdbc.driver.OracleDriver");
-			conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe", "bank", "bank");
+			prop.load(new FileReader("properties/driver.properties"));
+			Class.forName(prop.getProperty("driver"));
+			conn = DriverManager.getConnection(prop.getProperty("url"),prop.getProperty("id"),prop.getProperty("pwd"));
 			conn.setAutoCommit(false);
 		} catch(ClassNotFoundException e) {
 			e.printStackTrace();
 		} catch(SQLException e) {
+			e.printStackTrace();
+		} catch(IOException e) {
 			e.printStackTrace();
 		}
 		return conn;
