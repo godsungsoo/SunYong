@@ -48,9 +48,9 @@ public class BankMenu {
 								+ "\n8. 이전으로 돌아가기"
 								+ "\n메뉴 선택 :");
 			switch(sc.nextInt()) {
-			case 1 ://bController.bankNewInsert(bankInsert());
+			case 1 :bController.bankNewInsert(bankNewInsert());
 					  break;
-			case 2 :bController.bankInsert(bankInsert()); 
+			case 2 :bController.bankOldInsert(bankOldInsert()); 
 					  break;
 			case 3 :printAllUser(bController.selectAll()); 
 					  break;
@@ -105,7 +105,7 @@ public class BankMenu {
 		} while(true);
 	}
 	
-	public Bank bankInsert() {
+	public Bank bankNewInsert() {
 		Bank bank = new Bank();
 		System.out.print("고객명 :");
 		bank.setUserName(sc.next());
@@ -115,6 +115,18 @@ public class BankMenu {
 		bank.setDeposit(sc.nextInt());
 		System.out.print("고객전화번호[-미포함] :");
 		bank.setPhone(sc.next());
+		return bank;
+	}
+	
+	public Bank bankOldInsert() {
+		Bank bank = new Bank();
+		System.out.print("고객명 :");
+		bank.setUserName(sc.next());
+		System.out.print("고객주민번호[-포함] :");
+		bank.setUserSsn(sc.next());
+		System.out.print("첫 입금액[1000원 이상] :");
+		bank.setDeposit(sc.nextInt());
+		
 		return bank;
 	}
 	
@@ -136,8 +148,8 @@ public class BankMenu {
 	}
 	
 	public void printOneUser(Bank bank) {
-		System.out.println(bank.getUserNo() + ", " + bank.getAccountNo() +", "+
-				bank.getUserName() + ", " + bank.getOpenDate() );
+		System.out.println(bank.getUserNo() + " " + bank.getUserName() + " " + bank.getAccountNo() +" "+ bank.getBalance() + " "
+				+ " " + bank.getOpenDate()+" "+bank.getTransDate() +" "+ bank.getPhone());
 	}
 	
 	public String inputAccountNo() {

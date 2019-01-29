@@ -24,29 +24,56 @@ public class BankDao {
 		}
 	}
 	
-	public int bankInsert(Connection conn, Bank bank) {
+	public int bankNewInsert(Connection conn, Bank bank) {
 		int result = 0;
 		PreparedStatement pstmt = null;
 		
-		String query = "insert into bankmanager "
-				+ "values(select user_no from transaction where account_no = ?, ?, ?, ?)";
+		String query = prop.getProperty("newinsert");
 		
 		try {
 			pstmt = conn.prepareStatement(query);
-			pstmt.setString(1, bank.getAccountNo());
-			pstmt.setString(2, bank.getUserName());
-			pstmt.setString(3, bank.getUserSsn());
-			pstmt.setString(4, bank.getPhone());
+			pstmt.setString(1, bank.getUserName());
+			pstmt.setString(2, bank.getUserSsn());
+			pstmt.setString(3, bank.getPhone());
+			pstmt.setInt(4, 1);
+			pstmt.setString(5, "통장개설");
+			pstmt.setInt(6, bank.getDeposit());
+			pstmt.setInt(7, bank.getDeposit());
 			
+			result = pstmt.executeUpdate();
+			System.out.println(result);
+			if(result <= 0) {
+				rollback(conn);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		return result;
+	}
+	
+	public int bankOldInsert(Connection conn, Bank bank) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		
+		String query = prop.getProperty("oldinsert"); 
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, bank.getUserName());
+			pstmt.setString(2, bank.getUserSsn());
+			pstmt.setInt(3, 1);
+			pstmt.setString(4, "통장 개설");
+			pstmt.setInt(5, bank.getDeposit());
+			pstmt.setInt(6, bank.getDeposit());
 			result = pstmt.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
 			close(pstmt);
 		}
-		
-		
-		return 0;
+		return result;
 	}
 
 	
@@ -181,7 +208,5 @@ public class BankDao {
 		}
 		return bankList;
 	}
-
-	
 
 }

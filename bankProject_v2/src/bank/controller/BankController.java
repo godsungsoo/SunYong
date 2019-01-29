@@ -9,10 +9,22 @@ public class BankController {
 	//DI
 	private BankService bService = new BankService();
 	
-	public void bankInsert(Bank bank) {
-		int result = bService.bankInsert(bank);
+	public void bankNewInsert(Bank bank) {
+		int result = bService.bankNewInsert(bank);
 		
-		if(result == 0) {
+		if(result > 0) {
+			System.out.println("\n통장 개설 완료!");
+		}else {
+			System.out.println("\n통장 개설 실패!");
+			System.out.println("확인하고 다시 입력하세요.");
+		}
+		return;
+	}
+	
+	public void bankOldInsert(Bank bank) {
+		int result = bService.bankOldInsert(bank);
+		
+		if(result > 0) {
 			System.out.println("\n통장 개설 완료!");
 		}else {
 			System.out.println("\n통장 개설 실패!");

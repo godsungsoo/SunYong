@@ -11,9 +11,19 @@ public class BankService {
 	//DI
 	private BankDao bdao = new BankDao();
 	
-	public int bankInsert(Bank bank) {
+	public int bankNewInsert(Bank bank) {
 		Connection conn = getConnection();
-		int result = bdao.bankInsert(conn, bank);
+		int result = bdao.bankNewInsert(conn, bank);
+		if(result > 0) {
+			commit(conn);
+		}
+		close(conn);
+		return result;
+	}
+	
+	public int bankOldInsert(Bank bank) {
+		Connection conn = getConnection();
+		int result = bdao.bankOldInsert(conn, bank);
 		if(result > 0) {
 			commit(conn);
 		}else {
