@@ -37,23 +37,8 @@ public class BankController {
 		
 		if(bankList.size() == 0) {
 			System.out.println("\n통장이 없습니다.");
-		}
-		return bankList;
-	}
-
-	public ArrayList<Bank> selectAccount(String accountNo) {
-		ArrayList<Bank> bankList = bService.selectAccount(accountNo);
-		
-		if(bankList.size() == 0) {
-			System.out.println("\n통장이 없습니다.");
-		}
-		return bankList;
-	}
-
-	public ArrayList<Bank> selectTransaction(String accountNo) {
-		ArrayList<Bank> bankList = bService.selectTransaction(accountNo);
-		if(bankList.size() == 0) {
-			System.out.println("\n통장이 없습니다.");
+		}else {
+			System.out.println("통장 조회 완료!");
 		}
 		return bankList;
 	}
@@ -62,8 +47,54 @@ public class BankController {
 		ArrayList<Bank> bankList = bService.selectName(userName);
 		if(bankList.size() == 0) {
 			System.out.println("\n통장이 없습니다.");
+		}else {
+			System.out.println("이름으로 통장 조회 완료!");
 		}
 		return bankList;
+	}
+	
+	public ArrayList<Bank> selectAccount(String accountNo) {
+		ArrayList<Bank> bankList = bService.selectAccount(accountNo);
+		
+		if(bankList.size() == 0) {
+			System.out.println("\n통장이 없습니다.");
+		}else {
+			System.out.println("계좌번호로 거래내역 조회 완료!");
+		}
+		return bankList;
+	}
+
+	public int updatePhone(Bank bank) {
+		int result = bService.updatePhone(bank);
+		
+		if(result <= 0) {
+			System.out.println("\n변경 실패!!!");
+		}else {
+			System.out.println("전화번호 변경 성공!!!");
+		}
+		return result;
+	}
+
+	public int deleteAccount(Bank bank) {
+		int result = bService.deleteAccount(bank);
+		
+		if(result <= 0) {
+			System.out.println("\n삭제 실패!!!");
+		}else {
+			System.out.println("통장 삭제 성공!!!");
+		}
+		return result;
+	}
+
+	public int insertDeposit(Bank bank) {
+		int result = bService.insertDeposit(bank);
+		
+		if(result <= 0) {
+			System.out.println("\n입금 실패!!!");
+		}else {
+			System.out.println("통장 삭제 성공!!!");
+		}
+		return result;
 	}
 	
 }

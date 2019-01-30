@@ -16,6 +16,8 @@ public class BankService {
 		int result = bdao.bankNewInsert(conn, bank);
 		if(result > 0) {
 			commit(conn);
+		}else {
+			rollback(conn);
 		}
 		close(conn);
 		return result;
@@ -47,18 +49,32 @@ public class BankService {
 		return bookList;
 	}
 
-	public ArrayList<Bank> selectTransaction(String accountNo) {
-		Connection conn = getConnection();
-		ArrayList<Bank> bookList = bdao.selectTransaction(conn, accountNo);
-		close(conn);
-		return bookList;
-	}
-
 	public ArrayList<Bank> selectName(String userName) {
 		Connection conn = getConnection();
 		ArrayList<Bank> bookList = bdao.selectName(conn, userName);
 		close(conn);
 		return bookList;
+	}
+
+	public int updatePhone(Bank bank) {
+		Connection conn = getConnection();
+		int result = bdao.updatePhone(conn, bank);
+		close(conn);
+		return result;
+	}
+
+	public int deleteAccount(Bank bank) {
+		Connection conn = getConnection();
+		int result = bdao.deleteAccount(conn, bank);
+		close(conn);
+		return result;
+	}
+
+	public int insertDeposit(Bank bank) {
+		Connection conn = getConnection();
+		int result = bdao.insertDeposit(conn, bank);
+		close(conn);
+		return result;
 	}
 
 }
