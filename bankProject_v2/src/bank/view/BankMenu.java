@@ -43,7 +43,7 @@ public class BankMenu {
 								+ "\n3. 전체 사용자 통장 조회"
 								+ "\n4. 고객 이름으로 통장 조회"
 								+ "\n5. 계좌번호로 거래내역 조회"
-								+ "\n6. 고객 핸드폰 번호 병경"
+								+ "\n6. 고객 핸드폰 번호 변경"
 								+ "\n7. 통장삭제"
 								+ "\n8. 이전으로 돌아가기"
 								+ "\n메뉴 선택 :");
@@ -58,9 +58,9 @@ public class BankMenu {
 					  break;
 			case 5 :printAll(bController.selectAccount(inputAccountNo()));
 					  break;
-			case 6 :printAll(bController.selectTransaction(inputAccountNo()));
+			case 6 :bController.updatePhone(inputPhone());
 					  break;
-			case 7 ://deleteAccount(bController.deleteAccount(inputAccountNo()));
+			case 7 :bController.deleteAccount(deleteAccount());
 					   break;
 			case 8 :System.out.print("이전 메뉴로 돌아가시겠습니까(y,n) ? :");
 						if(sc.next().toLowerCase().charAt(0) == 'y') {
@@ -85,7 +85,7 @@ public class BankMenu {
 								+ "\n5. 이전으로 돌아가기"
 								+ "\n메뉴 선택 :");
 			switch(sc.nextInt()) {
-			case 1 ://bController.insertDeposit(inputDeposit());
+			case 1 :bController.insertDeposit(inputDeposit());
 					  break;
 			case 2 ://bController.insertWithdraw(inputWithdraw());
 					  break;
@@ -162,6 +162,17 @@ public class BankMenu {
 		return sc.next();
 	}
 	
+	public Bank inputPhone() {
+		Bank bank = new Bank();
+		System.out.print("고객명 :");
+		bank.setUserName(sc.next());
+		System.out.print("고객주민번호[-포함] :");
+		bank.setUserSsn(sc.next());
+		System.out.print("변경할 고객 전화번호[-미포함] :");
+		bank.setPhone(sc.next());
+		return bank;
+	}
+	
 	public Bank inputDeposit() {
 		Bank bank = new Bank();
 		System.out.print("계좌번호 입력[-포함] :");
@@ -180,8 +191,15 @@ public class BankMenu {
 		return bank;
 	}
 	
-	public void inputDeleteAccount(Bank bank) {
-		
+	public Bank deleteAccount() {
+		Bank bank = new Bank();
+		System.out.print("삭제할 계좌번호[-포함] :");
+		bank.setAccountNo(sc.next());
+		System.out.print("고객명 :");
+		bank.setUserName(sc.next());
+		System.out.print("고객주민번호[-포함] :");
+		bank.setUserSsn(sc.next());
+		return bank;
 	}
 	
 } 

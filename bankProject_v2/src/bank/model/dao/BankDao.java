@@ -41,10 +41,6 @@ public class BankDao {
 			pstmt.setInt(7, bank.getDeposit());
 			
 			result = pstmt.executeUpdate();
-			System.out.println(result);
-			if(result <= 0) {
-				rollback(conn);
-			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -140,59 +136,20 @@ public class BankDao {
 	
 	public ArrayList<Bank> selectAccount(Connection conn, String accountNo) {
 		ArrayList<Bank> bankList = new ArrayList<>();
-		Statement stmt = null;
+		PreparedStatement pstmt = null;
 		ResultSet rset = null;
 		
-		String query = "select user_no, account_no, user_name, open_date from bankmanager"
-				+ " join transaction using (user_no)"
-				+ "join account using (account_no)"
-				+ " where account_no = '"
-				+ accountNo+"'";
-		
 		try {
-			stmt = conn.createStatement();
-			rset = stmt.executeQuery(query);
+			pstmt = conn.prepareStatement(prop.getProperty("selectaccountno"));
+			pstmt.setString(1, accountNo);
+			rset = pstmt.executeQuery();
 			
 			if(rset.next()) {
 				Bank bank = new Bank();
 				bank.setUserNo(rset.getInt("user_no"));
-				bank.setAccountNo(rset.getString("account_no"));
-				bank.setUserName(rset.getString("user_name"));
-				bank.setOpenDate(rset.getDate("open_date"));
-				
-				bankList.add(bank);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}finally {
-			close(rset);
-			close(stmt);
-		}
-		return bankList;
-	}
-
-	public ArrayList<Bank> selectTransaction(Connection conn, String accountNo) {
-		ArrayList<Bank> bankList = new ArrayList<>();
-		Statement stmt = null;
-		ResultSet rset = null;
-		
-		String query = "select user_no,account_no,trans_date,type_name,trans_content,"
-				+ "deposit,withdraw,balance from transaction "
-				+ "join type using (type_no) "
-				+ "where account_no = '"
-				+ accountNo+"' "
-				+ "order by trans_date";
-		
-		try {
-			stmt = conn.createStatement();
-			rset = stmt.executeQuery(query);
-			
-			while(rset.next()) {
-				Bank bank = new Bank();
-				bank.setUserNo(rset.getInt("user_no"));
 				bank.setAccountNo(accountNo);
 				bank.setTransDate(rset.getDate("trans_date"));
-				bank.setTypeName(rset.getString("type_name"));
+				bank.setTypeNo(rset.getInt("type_no"));
 				bank.setTransContent(rset.getString("trans_content"));
 				bank.setDeposit(rset.getInt("deposit"));
 				bank.setWithdraw(rset.getInt("withdraw"));
@@ -200,13 +157,63 @@ public class BankDao {
 				
 				bankList.add(bank);
 			}
-		} catch (SQLException e) {
-					e.printStackTrace();
-		} finally {
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
 			close(rset);
-			close(stmt);
+			close(pstmt);
 		}
 		return bankList;
+	}
+
+	public int updatePhone(Connection conn, Bank bank){
+		int result = 0;
+		PreparedStatement pstmt = null;
+		
+		try {
+			pstmt = conn.prepareStatement(prop.getProperty("updatePhone"));
+			pstmt.setString(1, bank.getPhone());
+			pstmt.setString(2, bank.getUserName());
+			pstmt.setString(3, bank.getUserSsn());
+			result = pstmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		return result;
+	}
+
+	public int deleteAccount(Connection conn, Bank bank) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		
+		try {
+			pstmt = conn.prepareStatement(prop.getProperty("delete"));
+			pstmt.setString(1, bank.getUserName());
+			pstmt.setString(2, bank.getUserSsn());
+			pstmt.setString(3, bank.getAccountNo());
+			result = pstmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		return result;
+	}
+
+	public int insertDeposit(Connection conn, Bank bank) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		
+		try {
+			pstmt = conn.prepareStatement(prop.getProperty("inserDeposit"));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		return 0;
 	}
 
 }
