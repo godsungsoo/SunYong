@@ -92,9 +92,31 @@ public class BankController {
 		if(result <= 0) {
 			System.out.println("\n입금 실패!!!");
 		}else {
-			System.out.println("통장 삭제 성공!!!");
+			System.out.println("입금 성공!!!");
 		}
 		return result;
+	}
+
+	public int insertWithdraw(Bank bank) {
+		int result = bService.insertWithdraw(bank);
+		
+		if(result <= 0) {
+			System.out.println("\n출금 실패!!!");
+		}else {
+			System.out.println("출금 성공!!!");
+		}
+		return result;
+		
+	}
+
+	public ArrayList<Bank> selectUserAcc(String accountNo) {
+		ArrayList<Bank> bankList = bService.selectUserAcc(accountNo);
+		if(bankList.size() == 0) {
+			System.out.println("\n계좌 조회 실패!!");
+		}else {
+			System.out.println("계조 조회 성공");
+		}
+		return bankList;
 	}
 	
 }

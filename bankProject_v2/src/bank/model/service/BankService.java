@@ -77,4 +77,18 @@ public class BankService {
 		return result;
 	}
 
+	public int insertWithdraw(Bank bank) {
+		Connection conn = getConnection();
+		int result = bdao.insertWithdraw(conn, bank);
+		close(conn);
+		return result;
+	}
+
+	public ArrayList<Bank> selectUserAcc(String accountNo) {
+		Connection conn = getConnection();
+		ArrayList<Bank> bankList = bdao.selectUserAcc(conn, accountNo);
+		close(conn);
+		return bankList;
+	}
+
 }

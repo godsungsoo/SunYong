@@ -133,7 +133,7 @@ public class Bank implements Serializable{
 
 	@Override
 	public String toString() {
-		return "  "+userNo + "      " + accountNo + "   "+ typeName + "      " + transDate + "     " + transContent + "         " + deposit + "       " + withdraw + "      " + balance;
+		return "  "+userNo + "      " + accountNo + "   "+ typeNo + "      " + transDate + "     " + transContent + "         " + deposit + "       " + withdraw + "      " + balance;
 	}
 	
 	

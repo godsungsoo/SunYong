@@ -76,22 +76,21 @@ public class BankDao {
 	
 	public ArrayList<Bank> selectAll(Connection conn) {
 		ArrayList<Bank> bankList = new ArrayList<>();
-		Statement stmt = null;
+		PreparedStatement stmt = null;
 		ResultSet rset = null;
-		String query = "select user_no, account_no, user_name, open_date from bankmanager"
-				+ " join transaction using (user_no)"
-				+ "join account using (account_no)";
 		
 		try {
-			stmt = conn.createStatement();
-			rset = stmt.executeQuery(query);
+			stmt = conn.prepareStatement(prop.getProperty("selectall"));
+			rset = stmt.executeQuery();
 			while(rset.next()) {
 				Bank bank = new Bank();
 				bank.setUserNo(rset.getInt("user_no"));
 				bank.setAccountNo(rset.getString("account_no"));
 				bank.setUserName(rset.getString("user_name"));
+				bank.setBalance(rset.getInt("balance"));
 				bank.setOpenDate(rset.getDate("open_date"));
-				
+				bank.setTransDate(rset.getDate("trans_date"));
+				bank.setPhone(rset.getString("phone"));
 				bankList.add(bank);
 			}
 		} catch (SQLException e) {
@@ -207,13 +206,58 @@ public class BankDao {
 		PreparedStatement pstmt = null;
 		
 		try {
-			pstmt = conn.prepareStatement(prop.getProperty("inserDeposit"));
+			pstmt = conn.prepareStatement(prop.getProperty("deposit"));
+			pstmt.setString(1, bank.getAccountNo());
+			pstmt.setString(2, bank.getAccountNo());
+			pstmt.setString(3, "입금");
+			pstmt.setInt(4, bank.getDeposit());
+			pstmt.setInt(5, bank.getDeposit());
+			pstmt.setString(6, bank.getAccountNo());
+			result = pstmt.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}finally {
 			close(pstmt);
 		}
-		return 0;
+		return result;
+	}
+
+	public int insertWithdraw(Connection conn, Bank bank) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		
+		try {
+			pstmt = conn.prepareStatement(prop.getProperty("withdraw"));
+			pstmt.setString(1, bank.getAccountNo());
+			pstmt.setString(2, bank.getAccountNo());
+			pstmt.setString(3, "출금");
+			pstmt.setInt(4, bank.getWithdraw());
+			pstmt.setString(5, bank.getAccountNo());
+			pstmt.setInt(6, bank.getWithdraw());
+			result = pstmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		return result;
+	}
+
+	public ArrayList<Bank> selectUserAcc(Connection conn, String accountNo) {
+		ArrayList<Bank> bankList = new ArrayList<>();
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		try {
+			pstmt = conn.prepareStatement(prop.getProperty("selectuseracc"));
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		return bankList;
 	}
 
 }

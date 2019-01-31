@@ -87,11 +87,11 @@ public class BankMenu {
 			switch(sc.nextInt()) {
 			case 1 :bController.insertDeposit(inputDeposit());
 					  break;
-			case 2 ://bController.insertWithdraw(inputWithdraw());
+			case 2 :bController.insertWithdraw(inputWithdraw());
 					  break;
 			case 3 ://printAll(bController.selectTransaction(inputAccountNo()));
 					  break;
-			case 4 ://printAll(bController.selectAll(inputAccountNo()));
+			case 4 :printAll(bController.selectUserAcc(inputAccountNo())); break;
 			case 5 :System.out.print("이전 메뉴로 돌아가시겠습니까(y,n) ? :");
 					if(sc.next().toLowerCase().charAt(0) == 'y') {
 						return;
@@ -133,7 +133,7 @@ public class BankMenu {
 	public void printAll(ArrayList<Bank> bankList) {
 		if(bankList.size() > 0) {
 			System.out.println(
-					"고객고유번호   계좌번호      거래이름       거래일자            거래내용              입금액             출금액             잔액");
+					"고객고유번호   계좌번호      거래종류       거래일자            거래내용              입금액             출금액             잔액");
 			for (Bank bank : bankList) {
 				System.out.println(bank);
 			}
