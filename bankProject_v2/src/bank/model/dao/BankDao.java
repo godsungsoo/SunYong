@@ -250,7 +250,21 @@ public class BankDao {
 		
 		try {
 			pstmt = conn.prepareStatement(prop.getProperty("selectuseracc"));
-			
+			pstmt.setString(1, accountNo);
+			rset = pstmt.executeQuery();
+			while(rset.next()) {
+				Bank bank = new Bank();
+				bank.setUserNo(rset.getInt("user_no"));
+				bank.setAccountNo(accountNo);
+				bank.setTransDate(rset.getDate("trans_date"));
+				bank.setTypeNo(rset.getInt("type_no"));
+				bank.setTransContent(rset.getString("trans_content"));
+				bank.setDeposit(rset.getInt("deposit"));
+				bank.setWithdraw(rset.getInt("withdraw"));
+				bank.setBalance(rset.getInt("balance"));
+				
+				bankList.add(bank);
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
