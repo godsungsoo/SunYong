@@ -110,12 +110,12 @@ public class BankDao {
 		
 		try {
 			pstmt = conn.prepareStatement(prop.getProperty("selectname"));
-			pstmt.setString(1, userName);
+			pstmt.setString(1, "%"+userName+"%");
 			rset = pstmt.executeQuery();
 			while(rset.next()) {
 				Bank bank = new Bank();
 				bank.setUserNo(rset.getInt("user_no"));
-				bank.setUserName(userName);
+				bank.setUserName(rset.getString("user_name"));
 				bank.setAccountNo(rset.getString("account_no"));
 				bank.setBalance(rset.getInt("balance"));
 				bank.setOpenDate(rset.getDate("open_date"));
@@ -143,7 +143,7 @@ public class BankDao {
 			pstmt.setString(1, accountNo);
 			rset = pstmt.executeQuery();
 			
-			if(rset.next()) {
+			while(rset.next()) {
 				Bank bank = new Bank();
 				bank.setUserNo(rset.getInt("user_no"));
 				bank.setAccountNo(accountNo);
