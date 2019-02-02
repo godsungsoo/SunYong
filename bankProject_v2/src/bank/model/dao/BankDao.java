@@ -146,6 +146,7 @@ public class BankDao {
 			while(rset.next()) {
 				Bank bank = new Bank();
 				bank.setUserNo(rset.getInt("user_no"));
+				bank.setUserName(rset.getString("user_name"));
 				bank.setAccountNo(accountNo);
 				bank.setTransDate(rset.getDate("trans_date"));
 				bank.setTypeNo(rset.getInt("type_no"));
@@ -272,6 +273,34 @@ public class BankDao {
 			close(pstmt);
 		}
 		return bankList;
+	}
+
+	public int insertTransaction(Connection conn, Bank bank) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		
+		try {
+			pstmt = conn.prepareStatement(prop.getProperty("inserttransaction"));
+			pstmt.setString(1, bank.getAccountNo());
+			pstmt.setString(2,bank.getAccountNo());
+			pstmt.setString(3, "이체");
+			pstmt.setInt(4,bank.getDeposit());
+			pstmt.setString(5, bank.getAccountNo());
+			pstmt.setInt(6, bank.getDeposit());
+			
+			pstmt.setString(7, bank.getyAccountNo());
+			pstmt.setString(8,bank.getyAccountNo());
+			pstmt.setString(9, "이체");
+			pstmt.setInt(10,bank.getDeposit());
+			pstmt.setInt(11, bank.getDeposit());
+			pstmt.setString(12, bank.getyAccountNo());
+			result = pstmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		return result;
 	}
 
 }

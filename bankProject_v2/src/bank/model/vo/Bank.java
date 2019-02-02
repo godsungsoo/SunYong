@@ -16,6 +16,7 @@ public class Bank implements Serializable{
 	private String userName;		//고객명
 	private String userSsn;			//고객주민번호
 	private String accountNo;		//계좌번호
+	private String yAccountNo;  //상대방계좌번호
 	private Date openDate;			//통장개설일자
 	private int typeNo;				//거래종류
 	private String typeName;		//거래이름
@@ -129,6 +130,14 @@ public class Bank implements Serializable{
 
 	public void setPhone(String phone) {
 		this.phone = phone;
+	}
+	
+	public String getyAccountNo() {
+		return yAccountNo;
+	}
+
+	public void setyAccountNo(String yAccountNo) {
+		this.yAccountNo = yAccountNo;
 	}
 
 	@Override

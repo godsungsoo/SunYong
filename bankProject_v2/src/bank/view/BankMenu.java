@@ -89,7 +89,7 @@ public class BankMenu {
 					  break;
 			case 2 :bController.insertWithdraw(inputWithdraw());
 					  break;
-			case 3 ://printAll(bController.selectTransaction(inputAccountNo()));
+			case 3 :bController.insertTransaction(inputTransaction());
 					  break;
 			case 4 :printAll(bController.selectUserAcc(inputAccountNo())); break;
 			case 5 :System.out.print("이전 메뉴로 돌아가시겠습니까(y,n) ? :");
@@ -147,9 +147,10 @@ public class BankMenu {
 		}
 	}
 	
-	public void printOneUser(Bank bank) {
-		System.out.println(bank.getUserNo() + " " + bank.getUserName() + " " + bank.getAccountNo() +" "+ bank.getBalance() + " "
-				+ " " + bank.getOpenDate()+" "+bank.getTransDate() +" "+ bank.getPhone());
+	public void printOneUser(ArrayList<Bank> bankList) {
+		for(Bank bank : bankList) {
+		System.out.println(bank.getUserNo() + " " + bank.getUserName() + " " + bank.getAccountNo() +" "+ bank.getBalance());
+		}
 	}
 	
 	public String inputAccountNo() {
@@ -202,4 +203,21 @@ public class BankMenu {
 		return bank;
 	}
 	
+	public Bank inputTransaction() {
+		Bank bank = new Bank();
+		System.out.print("이체할 계좌번호 :");
+		bank.setAccountNo(sc.next());
+		while(true) {
+			System.out.print("송금할 계좌번호 :");
+			bank.setyAccountNo(sc.next());
+			printOneUser(bController.selectAccount(bank.getyAccountNo()));
+			System.out.print("계좌번호가 맞습니까?(y/n) :");
+			if(sc.next().toUpperCase().charAt(0) == 'Y') {
+				break;
+			}
+		}
+		System.out.print("송금할 입금액 :");
+		bank.setDeposit(sc.nextInt());
+		return bank;
+	} 
 } 

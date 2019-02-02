@@ -91,4 +91,11 @@ public class BankService {
 		return bankList;
 	}
 
+	public int insertTransaction(Bank bank) {
+		Connection conn = getConnection();
+		int result = bdao.insertTransaction(conn, bank);
+		close(conn);
+		return result;
+	}
+
 }

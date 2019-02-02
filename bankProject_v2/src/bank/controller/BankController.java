@@ -118,5 +118,15 @@ public class BankController {
 		}
 		return bankList;
 	}
+
+	public int insertTransaction(Bank bank) {
+		int result = bService.insertTransaction(bank);
+		if(result <= 0) {
+			System.out.println("\n계좌 이체 실패!!");
+		}else {
+			System.out.println("계좌 이체 성공");
+		}
+		return result;
+	}
 	
 }
